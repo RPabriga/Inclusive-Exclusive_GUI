@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox, ttk # GUI module for python
 
-
+# Calculates the total number of unique members in two overlapping clubs
 def count_two_sets(first_size, second_size, shared_size):
 	"""Return the number of unique members in two overlapping sets."""
+	# Add both club totals, then subtract the overlap
+    # because students in both clubs would otherwise be counted twice
 	return first_size + second_size - shared_size
 
-
+# Calculates the total number of unique members in three overlapping clubs
 def count_three_sets(
 	first_size,
 	second_size,
@@ -17,6 +19,10 @@ def count_three_sets(
 	all_three_size,
 ):
 	"""Return the number of unique members in three overlapping sets."""
+	# Inclusion-Exclusion formula for three sets:
+    # Add the three club totals
+    # Subtract the three pairwise overlaps
+    # Add the students who belong to all three clubs
 	return (
 		first_size
 		+ second_size
@@ -27,9 +33,10 @@ def count_three_sets(
 		+ all_three_size
 	)
 
-
+# Main class that contains the GUI and all of its functions
 class InclusionExclusionApp:
-	def __init__(self, root):
+	# Initializes the application
+	def __init__(self, root): # Sets the title and size of the application window
 		self.root = root
 		self.root.title("Club Memberships - Inclusion-Exclusion")
 		self.root.geometry("850x850")
@@ -44,6 +51,7 @@ class InclusionExclusionApp:
 		self.build_interface()
 		self.update_fields()
 
+	# Configures the colors, fonts, buttons, and other GUI styles
 	def configure_styles(self):
 		self.root.configure(background="#0B1120")
 		style = ttk.Style(self.root)
@@ -65,6 +73,7 @@ class InclusionExclusionApp:
 		style.configure("ResultValue.TLabel", background="#172554", foreground="#F8FAFC", font=("Segoe UI", 24, "bold"))
 		style.configure("Formula.TLabel", background="#172554", foreground="#CBD5E1", font=("Segoe UI", 12))
 
+	# Creates the main GUI interface
 	def build_interface(self):
 		header = tk.Frame(self.root, background="#172554", padx=24, pady=12)
 		header.pack(fill="x")
@@ -158,6 +167,8 @@ class InclusionExclusionApp:
 			wraplength=650,
 		).pack(anchor="w", pady=(6, 0))
 
+	# Updates the input fields depending on whether
+    # the user selected two clubs or three clubs
 	def update_fields(self):
 		for child in self.input_frame.winfo_children():
 			child.destroy()
@@ -181,7 +192,7 @@ class InclusionExclusionApp:
 					("all_three", "All three clubs overlap"),
 				]
 			)
-
+        # Starting row for the input fields
 		row = 0
 		ttk.Label(self.input_frame, text="CLUB TOTALS", style="App.TLabel", font=("Segoe UI", 10, "bold")).grid(
 			row=row, column=0, columnspan=4, sticky="w", pady=(0, 2)
@@ -200,6 +211,7 @@ class InclusionExclusionApp:
 		if club_fields:
 			self.entries[club_fields[0][0]].focus_set()
 
+	 # Creates the input boxes and labels dynamically
 	def add_field_grid(self, fields, start_row):
 		for index, (key, label) in enumerate(fields):
 			row = start_row + index // 2
@@ -213,6 +225,7 @@ class InclusionExclusionApp:
 
 		return start_row + (len(fields) + 1) // 2
 
+	# Reads all values entered by the user
 	def read_values(self):
 		values = {}
 		for key, entry in self.entries.items():
@@ -228,6 +241,7 @@ class InclusionExclusionApp:
 			values[key] = value
 		return values
 
+	# Checks whether the entered membership values are valid
 	def validate_values(self, values):
 		if values["math_science"] > min(values["math"], values["science"]):
 			raise ValueError("The Math and Science overlap cannot exceed either club total.")
@@ -280,6 +294,7 @@ class InclusionExclusionApp:
 			if total < 0:
 				raise ValueError("The calculated union of the three clubs cannot be negative.")
 
+	# Performs the main calculation when the Calculate button is clicked
 	def calculate(self):
 		try:
 			values = self.read_values()
@@ -313,12 +328,14 @@ class InclusionExclusionApp:
 		self.result_text.set(f"{total} students")
 		self.formula_text.set(f"Inclusion-Exclusion: {formula}")
 
+	# Clears all input fields and resets the result
 	def clear(self):
 		for entry in self.entries.values():
 			entry.delete(0, tk.END)
 		self.result_text.set("—")
 		self.formula_text.set("")
 
+	 # Loads a set of predefined values into the input fields
 	def load_values(self, values):
 		for key, value in values.items():
 			if key in self.entries:
@@ -326,11 +343,15 @@ class InclusionExclusionApp:
 				self.entries[key].insert(0, str(value))
 		self.calculate()
 
+	# Loads Case 1
+    # Case 1 uses two clubs
 	def load_case_one(self):
 		self.mode.set("2 clubs")
 		self.update_fields()
 		self.load_values({"math": 25, "science": 18, "math_science": 10})
 
+	# Loads Case 2
+    # Case 2 uses three clubs
 	def load_case_two(self):
 		self.mode.set("3 clubs")
 		self.update_fields()
@@ -346,12 +367,13 @@ class InclusionExclusionApp:
 			}
 		)
 
-
+# Main function that starts the application
 def main():
-	root = tk.Tk()
-	InclusionExclusionApp(root)
-	root.mainloop()
+	root = tk.Tk() # Creates the main Tkinter window
+	InclusionExclusionApp(root) # Creates the Inclusion-Exclusion application
+	root.mainloop() # Keeps the GUI running and responsive
 
-
+# Runs the main function only when this file
+# is executed directly
 if __name__ == "__main__":
 	main()
