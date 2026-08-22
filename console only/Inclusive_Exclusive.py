@@ -1,59 +1,62 @@
+
+
+
 def count_two_sets(first_size, second_size, shared_size):
     """Return the number of unique members in two overlapping sets."""
-    return first_size + second_size - shared_size
-
+    return first_size + second_size - shared_size    # Add the two club totals. Then subtract the students who belong to both clubs.
 
 def count_three_sets(first_size, second_size, third_size, first_second_size,
                      first_third_size, second_third_size, all_three_size):
     """Return the number of unique members in three overlapping sets."""
-    return (first_size + second_size + third_size - first_second_size
+    return (first_size + second_size + third_size - first_second_size  # Apply the Inclusion-Exclusion formula.
             - first_third_size - second_third_size + all_three_size)
-
 
 def validate_values(values, mode):
     """Check whether membership totals and overlaps are possible."""
-    if values["math_science"] > min(values["math"], values["science"]):
+    if values["math_science"] > min(values["math"], values["science"]): # Check if the Math and Science overlap is larger than either of the two club totals.
         raise ValueError("The Math and Science overlap cannot exceed either club total.")
-    if mode == "2 clubs" and count_two_sets(
+    if mode == "2 clubs" and count_two_sets(   # If we are working with two clubs, calculate the total. The result should never be negative
             values["math"], values["science"], values["math_science"]) < 0:
         raise ValueError("The two-club total cannot be negative.")
 
-    if mode == "3 clubs":
-        if values["math_literature"] > min(values["math"], values["literature"]):
+    if mode == "3 clubs": # VALIDATION FOR THREE CLUBS
+        if values["math_literature"] > min(values["math"], values["literature"]): # Check the Math & Literature overlap.
             raise ValueError("The Math and Literature overlap cannot exceed either club total.")
-        if values["science_literature"] > min(values["science"], values["literature"]):
+        if values["science_literature"] > min(values["science"], values["literature"]): # Check the Science & Literature overlap.
             raise ValueError("The Science and Literature overlap cannot exceed either club total.")
         if values["all_three"] > min(values["math_science"],
                                       values["math_literature"],
                                       values["science_literature"]):
             raise ValueError("The all-three intersection cannot exceed any pairwise intersection.")
 
-        math_only = (values["math"] - values["math_science"]
+        math_only = (values["math"] - values["math_science"]  # Students who belong to Math only.
                      - values["math_literature"] + values["all_three"])
-        science_only = (values["science"] - values["math_science"]
+        science_only = (values["science"] - values["math_science"]  # Students who belong to Science only.
                         - values["science_literature"] + values["all_three"])
-        literature_only = (values["literature"] - values["math_literature"]
+        literature_only = (values["literature"] - values["math_literature"] # Students who belong to Literature only.
                            - values["science_literature"] + values["all_three"])
+        
+         # A club-only count cannot be negative.
         if math_only < 0:
             raise ValueError("Math-only students would be negative; check Math Club and its two overlaps.")
-        if science_only < 0:
+        if science_only < 0: 
             raise ValueError("Science-only students would be negative; check Science Club and its two overlaps.")
-        if literature_only < 0:
+        if literature_only < 0: 
             raise ValueError("Literature-only students would be negative; check Literature Club and its two overlaps.")
 
-        total = count_three_sets(
+        total = count_three_sets( # Calculate the total number of unique students belonging to the three clubs.
             values["math"], values["science"], values["literature"],
             values["math_science"], values["math_literature"],
             values["science_literature"], values["all_three"])
-        if total < 0:
+        if total < 0:  # The total should never be negative.
             raise ValueError("The calculated union of the three clubs cannot be negative.")
 
 
 def read_values(field_names):
     """Read non-negative whole-number membership counts from the console."""
     values = {}
-    for key, label in field_names:
-        while True:
+    for key, label in field_names: # Loop through every field that needs to be entered.
+        while True: # Keep asking until the user enters a valid number.
             text = input(f"{label}: ").strip()
             try:
                 value = int(text)
