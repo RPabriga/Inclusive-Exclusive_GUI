@@ -378,8 +378,3 @@ def main():
 # is executed directly
 if __name__ == "__main__":
 	main()
-
-# Runs the main function only when this file
-# is executed directly
-if __name__ == "__main__":
-	main()
