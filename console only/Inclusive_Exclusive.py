@@ -1,6 +1,3 @@
-
-
-
 def count_two_sets(first_size, second_size, shared_size):
     """Return the number of unique members in two overlapping sets."""
     return first_size + second_size - shared_size    # Add the two club totals. Then subtract the students who belong to both clubs.
