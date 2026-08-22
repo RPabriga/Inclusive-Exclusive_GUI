@@ -64,7 +64,8 @@ class InclusionExclusionApp:
 		style.configure("Result.TLabelframe.Label", background="#172554", foreground="#DBEAFE", font=("Segoe UI", 12, "bold"))
 		style.configure("App.TRadiobutton", background="#111827", foreground="#F8FAFC", font=("Segoe UI", 12))
 		style.map("App.TRadiobutton", background=[("active", "#1E293B")], foreground=[("active", "#FFFFFF")])
-		style.configure("App.TEntry", fieldbackground="#0F172A", foreground="#F8FAFC", insertcolor="#F8FAFC", bordercolor="#475569", lightcolor="#475569", darkcolor="#0F172A", font=("Segoe UI", 13), padding=6)
+		style.configure("App.TEntry", fieldbackground="#0F172A", foreground="#FFFFFF", insertcolor="#FFFFFF", bordercolor="#64748B", lightcolor="#64748B", darkcolor="#334155", font=("Segoe UI", 18), padding=(8, 9))
+		style.map("App.TEntry", bordercolor=[("focus", "#93C5FD"), ("active", "#94A3B8")], lightcolor=[("focus", "#93C5FD"), ("active", "#94A3B8")], darkcolor=[("focus", "#475569")])
 		style.configure("Action.TButton", background="#2563EB", foreground="#FFFFFF", font=("Segoe UI", 11, "bold"), padding=(12, 7), borderwidth=1)
 		style.map("Action.TButton", background=[("active", "#1D4ED8"), ("pressed", "#1E40AF")], foreground=[("disabled", "#CBD5E1")])
 		style.configure("Secondary.TButton", background="#1E293B", foreground="#F8FAFC", font=("Segoe UI", 11), padding=(10, 7), borderwidth=1)
@@ -123,7 +124,7 @@ class InclusionExclusionApp:
 			style="App.TRadiobutton",
 		).pack(side="left")
 
-		self.input_frame = ttk.LabelFrame(content, text="Membership counts", padding=10, style="Section.TLabelframe")
+		self.input_frame = ttk.LabelFrame(content, text="Membership counts", padding=(16, 14), style="Section.TLabelframe")
 		self.input_frame.pack(fill="x", pady=(0, 8))
 
 		button_frame = ttk.Frame(content, style="App.TFrame")
@@ -195,13 +196,13 @@ class InclusionExclusionApp:
         # Starting row for the input fields
 		row = 0
 		ttk.Label(self.input_frame, text="CLUB TOTALS", style="App.TLabel", font=("Segoe UI", 10, "bold")).grid(
-			row=row, column=0, columnspan=4, sticky="w", pady=(0, 2)
+			row=row, column=0, columnspan=4, sticky="w", pady=(0, 8)
 		)
 		row += 1
 		row = self.add_field_grid(club_fields, row)
 
 		ttk.Label(self.input_frame, text="OVERLAPS", style="App.TLabel", font=("Segoe UI", 10, "bold")).grid(
-			row=row, column=0, columnspan=4, sticky="w", pady=(7, 2)
+			row=row, column=0, columnspan=4, sticky="w", pady=(12, 6)
 		)
 		row += 1
 		self.add_field_grid(overlap_fields, row)
@@ -217,10 +218,10 @@ class InclusionExclusionApp:
 			row = start_row + index // 2
 			column = (index % 2) * 2
 			ttk.Label(self.input_frame, text=label, style="App.TLabel").grid(
-				row=row, column=column, sticky="w", pady=3
+				row=row, column=column, sticky="w", pady=5
 			)
-			entry = ttk.Entry(self.input_frame, width=14, style="App.TEntry", justify="center")
-			entry.grid(row=row, column=column + 1, sticky="w", padx=(8, 22), pady=3)
+			entry = ttk.Entry(self.input_frame, width=11, style="App.TEntry", justify="center")
+			entry.grid(row=row, column=column + 1, sticky="w", padx=(8, 22), pady=5)
 			self.entries[key] = entry
 
 		return start_row + (len(fields) + 1) // 2
@@ -372,6 +373,11 @@ def main():
 	root = tk.Tk() # Creates the main Tkinter window
 	InclusionExclusionApp(root) # Creates the Inclusion-Exclusion application
 	root.mainloop() # Keeps the GUI running and responsive
+
+# Runs the main function only when this file
+# is executed directly
+if __name__ == "__main__":
+	main()
 
 # Runs the main function only when this file
 # is executed directly
