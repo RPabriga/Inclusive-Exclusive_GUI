@@ -4,9 +4,7 @@ from tkinter import messagebox, ttk # GUI module for python
 # Calculates the total number of unique members in two overlapping clubs
 def count_two_sets(first_size, second_size, shared_size):
 	"""Return the number of unique members in two overlapping sets."""
-	# Add both club totals, then subtract the overlap
-    # because students in both clubs would otherwise be counted twice
-	return first_size + second_size - shared_size
+	return first_size + second_size - shared_size # Add both club totals, then subtract the overlap, because students in both clubs would otherwise be counted twice
 
 # Calculates the total number of unique members in three overlapping clubs
 def count_three_sets(
