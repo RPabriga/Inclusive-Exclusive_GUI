@@ -2,7 +2,6 @@ def count_two_sets(first_size, second_size, shared_size):
     """Return the number of unique members in two sets."""
     return first_size + second_size - shared_size
 
-
 def count_three_sets(
     first_size,
     second_size,
@@ -23,7 +22,6 @@ def count_three_sets(
         - second_third_size
         + all_three_size
     )
-
 # Checks whether the membership totals and overlaps are valid.
 def validate_values(values, mode):
 
@@ -139,13 +137,12 @@ def validate_values(values, mode):
                 "The calculated union of the three clubs cannot be negative."
             )
 
-
-
 # Gets membership counts from the user and makes sure they
 # are valid non-negative whole numbers.
 def read_values(field_names):
 
     values = {}
+
     for key, label in field_names:
 
         # Keep asking until the user enters a valid value.
@@ -170,12 +167,13 @@ def read_values(field_names):
 
             values[key] = value
             break
-            
+
     return values
 
-# Validates the input, calculates the union, and displays
+# Validates the values, calculates the union, and displays
 # the result together with the Inclusion-Exclusion formula.
 def calculate_and_print(mode, values):
+
     # Validate the entered values.
     try:
         validate_values(values, mode)
@@ -185,6 +183,7 @@ def calculate_and_print(mode, values):
 
     # Calculate the result for two clubs.
     if mode == "2 clubs":
+
         total = count_two_sets(
             values["math"],
             values["science"],
@@ -199,6 +198,7 @@ def calculate_and_print(mode, values):
 
     # Calculate the result for three clubs.
     else:
+
         total = count_three_sets(
             values["math"],
             values["science"],
@@ -208,6 +208,7 @@ def calculate_and_print(mode, values):
             values["science_literature"],
             values["all_three"]
         )
+
         formula = (
             f"{values['math']} + "
             f"{values['science']} + "
@@ -222,41 +223,24 @@ def calculate_and_print(mode, values):
     print(f"\nTOTAL UNIQUE STUDENTS: {total} students")
     print(f"Inclusion-Exclusion: {formula}")
 
-
-
 # Runs the main menu and controls the calculator.
 def main():
-    # Predefined test cases
-    # Case 1: Two clubs
-    case_one = {
-        "math": 25,
-        "science": 18,
-        "math_science": 10
-    }
 
-    # Case 2: Three clubs
-    case_two = {
-        "math": 20,
-        "science": 15,
-        "literature": 10,
-        "math_science": 5,
-        "math_literature": 3,
-        "science_literature": 2,
-        "all_three": 1
-    }
-    # Input fields
+    # Input fields for two clubs.
     two_club_fields = [
         ("math", "Math Club total"),
         ("science", "Science Club total"),
         ("math_science", "Math and Science overlap")
     ]
+
+    # Input fields for three clubs.
     three_club_fields = two_club_fields + [
         ("literature", "Literature Club total"),
         ("math_literature", "Math and Literature overlap"),
         ("science_literature", "Science and Literature overlap"),
         ("all_three", "All three clubs overlap")
     ]
-    # Program title
+
     print("-----------------------------------------------")
     print("😍😍😍 INCLUSION-EXCLUSION PRINCIPLE 😍😍😍")
     print("        Club Membership Calculator")
@@ -265,15 +249,11 @@ def main():
         "Calculate the number of unique students "
         "when memberships overlap."
     )
-
-    
-    # Main menu
+    # Main menu.
     while True:
         print("\n1. Calculate for two clubs")
         print("2. Calculate for three clubs")
-        print("3. Load Case 1")
-        print("4. Load Case 2")
-        print("5. Exit")
+        print("3. Exit")
 
         choice = input("Choose an option: ").strip()
 
@@ -286,18 +266,12 @@ def main():
             calculate_and_print("3 clubs", values)
 
         elif choice == "3":
-            calculate_and_print("2 clubs", case_one)
-
-        elif choice == "4":
-            calculate_and_print("3 clubs", case_two)
-
-        elif choice == "5":
             print("Goodbye!")
             break
 
         else:
-            print("Please choose an option from 1 to 5.")
-            
+            print("Please choose an option from 1 to 3.")
+
 # PROGRAM START
 if __name__ == "__main__":
     main()
